@@ -1,32 +1,59 @@
 from collections import Counter
+from django.shortcuts import render, reverse
+from django.http import HttpResponseRedirect
 
-from django.shortcuts import render
-
-# Для отладки механизма ab-тестирования используйте эти счетчики
-# в качестве хранилища количества показов и количества переходов.
-# но помните, что в реальных проектах так не стоит делать
-# так как при перезапуске приложения они обнулятся
 counter_show = Counter()
 counter_click = Counter()
 
 
+def home_view(request):
+    template_name = 'home.html'
+
+    pages = {
+        'Альтернативная версия': reverse('landing') + f'?ab-test-arg=test',
+        'Оригинальная версия': reverse('landing') + f'?ab-test-arg=original',
+    }
+
+    context = {
+        'pages': pages
+    }
+
+    return render(request, template_name, context)
+
+
 def index(request):
-    # Реализуйте логику подсчета количества переходов с лендига по GET параметру from-landing
+    from_landing = request.GET.get('from-landing')
+
+    if from_landing:
+        counter_click[from_landing] += 1
+
     return render(request, 'index.html')
 
 
 def landing(request):
-    # Реализуйте дополнительное отображение по шаблону app/landing_alternate.html
-    # в зависимости от GET параметра ab-test-arg
-    # который может принимать значения original и test
-    # Так же реализуйте логику подсчета количества показов
-    return render(request, 'landing.html')
+    ab_test_arg = request.GET.get('ab-test-arg')
+
+    if ab_test_arg == 'test':
+        counter_show['test'] += 1
+        template_name = 'landing_alternate.html'
+    else:
+        counter_show['original'] += 1
+        template_name = 'landing.html'
+
+    return render(request, template_name)
 
 
 def stats(request):
-    # Реализуйте логику подсчета отношения количества переходов к количеству показов страницы
-    # Для вывода результат передайте в следующем формате:
+    original_shows = counter_show['original']
+    test_shows = counter_show['test']
+
+    original_clicks = counter_click['original']
+    test_clicks = counter_click['test']
+
+    original_conversion = (original_clicks / original_shows) if original_shows > 0 else 0
+    test_conversion = (test_clicks / test_shows) if test_shows > 0 else 0
+
     return render(request, 'stats.html', context={
-        'test_conversion': 0.5,
-        'original_conversion': 0.4,
+        'test_conversion': test_conversion,
+        'original_conversion': original_conversion,
     })

@@ -1,10 +1,11 @@
 from django.urls import path
 
-from app.views import landing, stats, index
+from . import views
 
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('landing/', landing, name='landing'),
-    path('stats/', stats, name='stats'),
+    path('', views.home_view, name='home'),
+    path('landing/', views.landing, name='landing'),
+    path('end', views.index, name='index'),
+    path('stats/', views.stats, name='stats'),
 ]

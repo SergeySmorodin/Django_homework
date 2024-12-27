@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="center">
+    <h1>Выберите версию сайта:</h1>
+    <ul>
+        {% for title, url in pages.items %}
+            <li><a href="{{ url }}">{{ title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <p class="light">Для просмотра статистики перейдите по <a href="{% url 'stats' %}">ссылке</a>.</p>
+</div>
+
+{% endblock %}
+
+
