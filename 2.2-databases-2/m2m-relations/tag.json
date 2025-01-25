@@ -1,0 +1,44 @@
+[
+    {
+        "model": "articles.tag",
+        "pk": 1,
+        "fields": {
+            "name": "Культура"
+        }
+    },
+    {
+        "model": "articles.tag",
+        "pk": 2,
+        "fields": {
+            "name": "Здоровье"
+        }
+    },
+    {
+        "model": "articles.tag",
+        "pk": 3,
+        "fields": {
+            "name": "Наука"
+        }
+    },
+    {
+        "model": "articles.tag",
+        "pk": 4,
+        "fields": {
+            "name": "Международные отношения"
+        }
+    },
+    {
+        "model": "articles.tag",
+        "pk": 5,
+        "fields": {
+            "name": "Космос"
+        }
+    },
+        {
+        "model": "articles.tag",
+        "pk": 6,
+        "fields": {
+            "name": "Город"
+        }
+    }
+]

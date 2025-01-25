@@ -120,6 +120,7 @@ python manage.py migrate
 
 ```bash
 python manage.py loaddata articles.json
+python manage.py loaddata tag.json
 ```
 
 Запустить отладочный веб-сервер проекта:
@@ -127,3 +128,10 @@ python manage.py loaddata articles.json
 ```bash
 python manage.py runserver
 ```
+
+Запустить Django shell:
+
+```bash
+python manage.py shell
+```
+
