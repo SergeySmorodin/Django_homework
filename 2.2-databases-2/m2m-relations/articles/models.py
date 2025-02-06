@@ -33,8 +33,8 @@ class Scope(models.Model):
     is_main = models.BooleanField(default=False, verbose_name='Основной')
 
     class Meta:
-        verbose_name = 'Тег'
-        verbose_name_plural = 'Теги'
+        verbose_name = 'Тег статьи'
+        verbose_name_plural = 'Теги статьи'
 
     def __str__(self):
         return f"{self.tag.name} для {self.article.title}"
