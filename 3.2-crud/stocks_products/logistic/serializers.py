@@ -23,18 +23,18 @@ class StockSerializer(serializers.ModelSerializer):
         fields = ['id', 'address', 'positions']
 
     def create(self, validated_data):
-        positions = validated_data.pop('positions')  # Извлекаем данные о позициях
-        stock = super().create(validated_data)  # Создаём склад
+        positions = validated_data.pop('positions')
+        stock = super().create(validated_data)
 
         # Заполняем таблицу StockProduct
         for position in positions:
-            StockProduct.objects.create(stock=stock, **position)
+            StockProduct.objects.get_or_create(stock=stock, **position)
 
         return stock
 
     def update(self, instance, validated_data):
-        positions = validated_data.pop('positions')  # Извлекаем данные о позициях
-        stock = super().update(instance, validated_data)  # Обновляем склад
+        positions = validated_data.pop('positions')
+        stock = super().update(instance, validated_data)
 
         # Обновляем или создаём позиции
         for position in positions:
