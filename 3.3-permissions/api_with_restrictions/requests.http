@@ -11,23 +11,30 @@ Content-Type: application/json
 # создание объявления
 POST {{baseUrl}}/publicity/
 Content-Type: application/json
-Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+Authorization: Token 54029b4f4f015e7feb3fe930aadbeb43e34620d7
 
 {
-  "title": "Комод от юзера",
+  "title": "Шкаф IKEA",
   "description": "Срочно"
 }
 
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/publicity/23/
+PATCH {{baseUrl}}/publicity/26/
 Content-Type: application/json
 Authorization: Token 54029b4f4f015e7feb3fe930aadbeb43e34620d7
 
 {
   "status": "CLOSED"
 }
+
+###
+
+# Удаление объявления:
+DELETE {{baseUrl}}/publicity/37/
+Content-Type: application/json
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
 
 ###
 
@@ -41,4 +48,65 @@ Content-Type: application/json
 GET {{baseUrl}}/publicity/?created_at_after=2020-10-01
 Content-Type: application/json
 
+###
 
+# Добавление в избранное
+POST {{baseUrl}}/publicity/33/favorite/
+Content-Type: application/json
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+
+###
+
+# Фильтрация по избранным объявлениям (видны только избранные)
+GET {{baseUrl}}/publicity/?favorites=true
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+
+###
+
+# Удаление из избранного:
+DELETE {{baseUrl}}/publicity/33/favorite/
+Content-Type: application/json
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+
+###
+
+# Просмотр всех объявлений
+GET {{baseUrl}}/publicity/
+Content-Type: application/json
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+
+###
+
+# добавить в черновик
+PATCH {{baseUrl}}/publicity/34/
+Content-Type: application/json
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+
+{
+  "status": "DRAFT"
+}
+
+###
+
+# получение черновика
+GET {{baseUrl}}/publicity/34
+Content-Type: application/json
+Authorization: Token ec4cd88d93b09c84d43fa57728467a1f3b7f583e
+
+###
+
+# получение черновика другим пользователем
+GET {{baseUrl}}/publicity/34
+Content-Type: application/json
+Authorization: Token 54029b4f4f015e7feb3fe930aadbeb43e34620d7
+
+###
+
+# попытка поменять объявление админом
+PATCH {{baseUrl}}/publicity/33/
+Content-Type: application/json
+Authorization: Token 54029b4f4f015e7feb3fe930aadbeb43e34620d7
+
+{
+  "status": "CLOSED"
+}

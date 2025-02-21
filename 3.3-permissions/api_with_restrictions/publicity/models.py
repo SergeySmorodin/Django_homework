@@ -4,9 +4,9 @@ from django.db import models
 
 class AdvertisementStatusChoices(models.TextChoices):
     """ Статусы объявления """
-
     OPEN = "OPEN", "Открыто"
     CLOSED = "CLOSED", "Закрыто"
+    DRAFT = "DRAFT", "Черновик"
 
 
 class Advertisement(models.Model):
@@ -38,3 +38,27 @@ class Advertisement(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Favorite(models.Model):
+    """ Модель для избранных объявлений """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='favorites'
+    )
+    advertisement = models.ForeignKey(
+        'Advertisement',
+        on_delete=models.CASCADE,
+        related_name='favorites'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (
+        'user', 'advertisement')  # Один пользователь не может добавить одно объявление в избранное дважды
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранные"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.advertisement.title}"

@@ -14,10 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
 class AdvertisementSerializer(serializers.ModelSerializer):
     """ Serializer для объявления """
     creator = UserSerializer(read_only=True)
+    is_favorite = serializers.SerializerMethodField()
 
     class Meta:
         model = Advertisement
-        fields = ('id', 'title', 'description', 'creator', 'status', 'created_at')
+        fields = ('id', 'title', 'description', 'creator', 'status', 'created_at', 'is_favorite')
 
     def create(self, validated_data):
         """ Метод для создания """
@@ -50,3 +51,10 @@ class AdvertisementSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("У пользователя не может быть больше 10 открытых объявлений")
 
         return data
+
+    def get_is_favorite(self, obj):
+        """ Проверка, добавлено ли объявление в избранное текущим пользователем """
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return obj.favorites.filter(user=user).exists()
+        return False

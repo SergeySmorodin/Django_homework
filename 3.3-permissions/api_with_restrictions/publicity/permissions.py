@@ -8,3 +8,12 @@ class IsOwnerOrReadOnly(BasePermission):
         if request.method in ['GET', 'HEAD', 'OPTIONS']:
             return True
         return obj.creator == request.user
+
+
+class IsAdminOrOwner(BasePermission):
+    """ Разрешает доступ админам или владельцам объекта """
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return True
+        return request.user.is_staff or obj.creator == request.user
