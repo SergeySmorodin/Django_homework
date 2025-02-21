@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
 
-    'advertisements',
+    'publicity',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +76,14 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '20/minute',  # запросы для авторизованных пользователей
+        'anon': '10/minute',  # запросы для неавторизованных пользователей
+        },
 }
 
 WSGI_APPLICATION = 'api_with_restrictions.wsgi.application'
@@ -91,6 +98,8 @@ DATABASES = {
         'NAME': 'netology_classified_ads',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': '12qwaszx'
     }
 }
 
@@ -132,3 +141,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
