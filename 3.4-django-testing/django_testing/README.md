@@ -113,3 +113,14 @@ manage.py migrate
 ```bash
 pytest
 ```
+
+Проверка покрытия кода тестами
+```bash
+coverage run -m pytest
+```
+```bash
+coverage report -m 
+```
+```bash
+coverage html
+```
