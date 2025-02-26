@@ -7,6 +7,7 @@ from model_bakery import baker
 from students.models import Student, Course
 
 
+
 @pytest.fixture
 def api_client():
     return APIClient()
